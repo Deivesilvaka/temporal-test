@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: temporal
+      POSTGRES_PASSWORD: temporal
+      POSTGRES_DB: temporal
+    ports:
+      - '5432:5432'
+    volumes:
+      - temporal_pgdata:/var/lib/postgresql/data
+    networks:
+      - temporal-net # <-- Adicionado aqui
+
+  temporal:
+    image: temporalio/auto-setup:1.20.4
+    depends_on:
+      - postgres
+    environment:
+      DB: postgresql
+      DB_PORT: 5432 # <-- Porta adicionada
+      POSTGRES_USER: temporal
+      POSTGRES_PWD: temporal
+      POSTGRES_SEEDS: postgres
+      ENABLE_UI: 'true'
+    ports:
+      - '7233:7233' # gRPC Temporal SDK
+      - '8233:8233' # UI
+    networks:
+      - temporal-net
+
+  app:
+    build: .
+    depends_on:
+      - temporal
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+    ports:
+      - '3000:3000'
+    networks:
+      - temporal-net
+
+volumes:
+  temporal_pgdata:
+
+networks:
+  temporal-net:
+    driver: bridge
