@@ -1,7 +1,6 @@
 import { proxyActivities } from '@temporalio/workflow';
 
 interface CronInput {
-  tipo: string;
   mensagem: string;
 }
 

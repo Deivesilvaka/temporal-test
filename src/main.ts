@@ -18,7 +18,6 @@ async function bootstrap() {
       workflowId: 'daily-cron',
       args: [
         {
-          tipo: 'processar dados',
           mensagem: 'Processamento de dados dos usuários',
         },
       ],

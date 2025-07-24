@@ -6,9 +6,7 @@ export class CronActivities {
   constructor(private readonly processUsersService: ProcessUsersService) {}
 
   async runCronJob(input: { tipo: string; mensagem: string }) {
-    console.log(
-      `🕒 ${new Date().toISOString()} - ${input.tipo}: ${input.mensagem}`,
-    );
+    console.log(`🕒 ${new Date().toISOString()} - ${input.mensagem}`);
     await this.processUsersService.processar();
   }
 }
