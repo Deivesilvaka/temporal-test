@@ -1,4 +1,3 @@
-// src/temporal/cron.workflow.ts
 import { proxyActivities } from '@temporalio/workflow';
 
 interface CronInput {

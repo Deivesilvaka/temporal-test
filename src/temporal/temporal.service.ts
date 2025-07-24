@@ -1,16 +1,15 @@
-// src/temporal/temporal.service.ts
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Worker } from '@temporalio/worker';
 import { join } from 'path';
-import { RelatorioService } from '../relatorio/relatorio.service';
+import { ProcessUsersService } from '../relatorio/relatorio.service';
 import { CronActivities } from './cron.activities';
 
 @Injectable()
 export class TemporalService implements OnModuleInit {
-  constructor(private readonly relatorioService: RelatorioService) {}
+  constructor(private readonly processUsersService: ProcessUsersService) {}
 
   async onModuleInit() {
-    const activities = new CronActivities(this.relatorioService);
+    const activities = new CronActivities(this.processUsersService);
 
     const worker = await Worker.create({
       workflowsPath: join(__dirname, 'cron.workflow.js'),

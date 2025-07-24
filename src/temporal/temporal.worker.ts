@@ -5,7 +5,7 @@ import { CronActivities } from './cron.activities';
 
 export async function startWorker() {
   const app = await NestFactory.createApplicationContext(AppModule);
-  const relatorioService = app.get(CronActivities); // ⚠️ Aqui vai buscar com injeção do Nest
+  const relatorioService = app.get(CronActivities);
 
   const worker = await Worker.create({
     workflowsPath: require.resolve('./cron.workflow'),

@@ -1,13 +1,7 @@
-// src/main.ts
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {
-  Connection,
-  Client,
-  WorkflowExecutionAlreadyStartedError,
-} from '@temporalio/client';
+import { Connection, Client } from '@temporalio/client';
 import { cronWorkflow } from './temporal/cron.workflow';
-import { startWorker } from './temporal/temporal.worker';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,7 +16,12 @@ async function bootstrap() {
     await client.workflow.start(cronWorkflow, {
       taskQueue: 'cron-task-queue',
       workflowId: 'daily-cron',
-      args: [{ tipo: 'relatorio', mensagem: 'Executar relatório diário' }],
+      args: [
+        {
+          tipo: 'processar dados',
+          mensagem: 'Processamento de dados dos usuários',
+        },
+      ],
       cronSchedule: 'CRON_TZ=America/Sao_Paulo */1 * * * *',
     });
     console.log('✅ Workflow agendado com sucesso!');
