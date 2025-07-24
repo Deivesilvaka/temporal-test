@@ -5,7 +5,7 @@ import { ProcessUsersService } from '../relatorio/relatorio.service';
 export class CronActivities {
   constructor(private readonly processUsersService: ProcessUsersService) {}
 
-  async runCronJob(input: { tipo: string; mensagem: string }) {
+  async runCronJob(input: { mensagem: string }) {
     console.log(`🕒 ${new Date().toISOString()} - ${input.mensagem}`);
     await this.processUsersService.processar();
   }
